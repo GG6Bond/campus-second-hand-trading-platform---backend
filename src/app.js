@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 
 // 托管静态资源
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(express.static('public'))
+app.use(express.static('D:\\Desktop\\server\\public'))
 
 console.log(path.join(__dirname, 'public'));
 

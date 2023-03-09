@@ -1,5 +1,10 @@
-'use strict'
+// 'use strict'
 const db = require('../config/db');
+
+const fs = require('fs');
+
+let successState = 0 // 表示成功
+let failState = 1 // 表示失败
 
 
 // let successState = 0 // 表示成功
@@ -11,13 +16,8 @@ const db = require('../config/db');
 //     res.send({ name: '666', age: 11 })
 // }
 
-'use strict'
 
 
-let successState = 0 // 表示成功
-let failState = 1 // 表示失败
-
-const fs = require('fs');
 
 
 // 获取用户信息
@@ -42,7 +42,7 @@ exports.getuserinfo = (req, res) => {
 
         // 5.0 获取数据成功
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -67,7 +67,7 @@ exports.createProductInfo = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -94,7 +94,7 @@ exports.getProductDetail = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -107,7 +107,7 @@ exports.getProductDetail = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -130,14 +130,14 @@ exports.editProductDetail = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -192,7 +192,7 @@ exports.getProductList = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -202,7 +202,7 @@ exports.getProductList = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -223,7 +223,7 @@ exports.getUserProduct = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -236,7 +236,7 @@ exports.getUserProduct = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -254,14 +254,14 @@ exports.createUser = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -278,14 +278,14 @@ exports.buyProduct = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -329,7 +329,7 @@ exports.searchItem = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -339,7 +339,7 @@ exports.searchItem = (req, res) => {
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -356,7 +356,7 @@ exports.setHistory = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -365,7 +365,7 @@ exports.setHistory = (req, res) => {
             console.log(123456);
         } else {
             // 有数据 返回
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
         let sql1 = `insert into history values (${req.body.product}, ${req.body.user})`;
@@ -376,13 +376,13 @@ exports.setHistory = (req, res) => {
             if (err) {
                 resObj.status = failState
                 resObj.message = err.message
-                res.end(JSON.stringify(resObj))
+                res.send(JSON.stringify(resObj))
                 return
             }
             resObj.message = datas
         })
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -399,7 +399,7 @@ exports.getHistory = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -414,7 +414,7 @@ exports.getHistory = (req, res) => {
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -431,14 +431,14 @@ exports.delHistory = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -457,14 +457,14 @@ exports.delProduct = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -489,14 +489,14 @@ exports.changeProductstatus = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -513,7 +513,7 @@ exports.getAllProductList = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -526,7 +526,7 @@ exports.getAllProductList = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -544,7 +544,7 @@ exports.getBuy = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -554,7 +554,7 @@ exports.getBuy = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -573,7 +573,7 @@ exports.tradingProduct = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -583,7 +583,7 @@ exports.tradingProduct = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -602,7 +602,7 @@ exports.getSell = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -612,7 +612,7 @@ exports.getSell = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -636,12 +636,12 @@ exports.changeUser = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -657,7 +657,7 @@ exports.addFollow = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -666,7 +666,7 @@ exports.addFollow = (req, res) => {
             console.log(123456);
         } else {
             // 有数据 返回
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -678,13 +678,13 @@ exports.addFollow = (req, res) => {
             if (err) {
                 resObj.status = failState
                 resObj.message = err.message
-                res.end(JSON.stringify(resObj))
+                res.send(JSON.stringify(resObj))
                 return
             }
             resObj.message = datas
         })
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -702,7 +702,7 @@ exports.getFollow = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -711,7 +711,7 @@ exports.getFollow = (req, res) => {
         }
 
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -728,12 +728,12 @@ exports.delFollow = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -750,12 +750,12 @@ exports.calEarn = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -772,12 +772,12 @@ exports.findFollow = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -803,7 +803,7 @@ exports.getClassifyList = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
@@ -813,7 +813,7 @@ exports.getClassifyList = (req, res) => {
         }
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -845,7 +845,7 @@ exports.getUserInfoNum = (req, res) => {
                 if (err) {
                     resObj.status = failState
                     resObj.message = err.message
-                    res.end(JSON.stringify(resObj))
+                    res.send(JSON.stringify(resObj))
                     reject(resObj)
                     return
                 }
@@ -864,7 +864,7 @@ exports.getUserInfoNum = (req, res) => {
     Promise.all(p).then(() => {
         // console.log(JSON.stringify(resObj));
         res.send(JSON.stringify(resObj))
-        console.log('获取用户所有信息============>        end')
+        console.log('获取用户所有信息============>        send')
     });
 }
 
@@ -882,13 +882,13 @@ exports.getUserinfo = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -906,13 +906,13 @@ exports.getUserDetail = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -930,13 +930,13 @@ exports.delUser = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -953,14 +953,14 @@ exports.editUser = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
@@ -970,7 +970,7 @@ exports.test = (req, res) => {
     let resObj = { status: successState, message: [] };
 
     // resObj.message.push(123)
-    res.end(JSON.stringify(resObj))
+    res.send(JSON.stringify(resObj))
 }
 
 // 搜索分类
@@ -986,14 +986,14 @@ exports.searchClassify = (req, res) => {
         if (err) {
             resObj.status = failState
             resObj.message = err.message
-            res.end(JSON.stringify(resObj))
+            res.send(JSON.stringify(resObj))
             return
         }
 
         // 5.0 获取数据成功
         resObj.message = datas
 
-        res.end(JSON.stringify(resObj))
+        res.send(JSON.stringify(resObj))
     })
 }
 
