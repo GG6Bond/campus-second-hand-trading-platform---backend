@@ -670,7 +670,7 @@ exports.addFollow = (req, res) => {
             return
         }
 
-        let sql = `insert into follow values ("${req.body.productid}", "${req.body.userid}")`
+        let sql = `insert into follow values (null,"${req.body.productid}", "${req.body.userid}")`
         console.log('添加关注============>', sql)
 
         db.query(sql, (err, datas) => {
