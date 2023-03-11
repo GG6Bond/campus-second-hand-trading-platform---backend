@@ -110,8 +110,15 @@ route.post('/api/editUser', apiCtrl.editUser)
 // 搜索分类
 route.post('/api/searchClassify', apiCtrl.searchClassify)
 
+// 获取轮播图
+route.post('/api/getSwiper', apiCtrl.getSwiper)
+
+
 // test
 route.post('/api/test', apiCtrl.test)
+
+
+
 
 module.exports = route
 

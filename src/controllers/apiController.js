@@ -178,9 +178,17 @@ exports.getProductList = (req, res) => {
 
     let sql = "";
     // console.log(typeof req.params.id);
+    // if (req.params.id !== 'undefined') {
+    //     sql = `select product_id, product_title, product_price from product_info
+    //   where product_status = 0 and product_owner != ${req.params.id} order by product_id DESC`;
+    // } else {
+    //     sql = `select product_id, product_title, product_price from product_info
+    //     where product_status = 0 order by product_id DESC`;
+    // }
+
     if (req.params.id !== 'undefined') {
         sql = `select product_id, product_title, product_price from product_info
-      where product_status = 0 and product_owner != ${req.params.id} order by product_id DESC`;
+      where product_status = 0 order by product_id DESC`;
     } else {
         sql = `select product_id, product_title, product_price from product_info
         where product_status = 0 order by product_id DESC`;
@@ -301,14 +309,22 @@ exports.searchItem = (req, res) => {
         if (req.body.text && !req.body.status) {
             // 上架的商品
             console.log("case1");
+            // sql = `select product_id, product_title, product_price from product_info
+            //    where product_title like '%${req.body.text}%' and product_status = 0 
+            //    and product_owner != ${req.body.id} order by product_id DESC`
+
             sql = `select product_id, product_title, product_price from product_info
                where product_title like '%${req.body.text}%' and product_status = 0 
-               and product_owner != ${req.body.id} order by product_id DESC`
+               order by product_id DESC`
+
         } else {
             // 无搜索数据返回全部
             console.log("case2");
+            // sql = `select product_id, product_title, product_price from product_info where product_status = 0
+            //    and product_owner != ${req.body.id} order by product_id DESC`
+
             sql = `select product_id, product_title, product_price from product_info where product_status = 0 
-               and product_owner != ${req.body.id} order by product_id DESC`
+            and order by product_id DESC`
         }
     } else {
         if (req.body.text) {
@@ -368,7 +384,7 @@ exports.setHistory = (req, res) => {
             res.send(JSON.stringify(resObj))
             return
         }
-        let sql1 = `insert into history values (${req.body.product}, ${req.body.user})`;
+        let sql1 = `insert into history values (null,${req.body.product}, ${req.body.user})`;
         console.log('插入历史记录============>', sql1)
 
         db.query(sql1, (err, datas) => {
@@ -789,13 +805,23 @@ exports.getClassifyList = (req, res) => {
     let sql = "";
     console.log(req.body.id);
     console.log(req.body.id !== undefined);
+    // if (req.body.id !== undefined) {
+    //     sql = `select product_id, product_title, product_price from product_info where product_status = 0 and 
+    //     product_owner != '${req.body.id}' and product_classify = '${req.body.classify}' order by product_id DESC`;
+    // } else {
+    //     sql = `select product_id, product_title, product_price from product_info where product_status = 0 and
+    //      product_classify = '${req.body.classify}' order by product_id DESC`;
+    // }
+
+
     if (req.body.id !== undefined) {
         sql = `select product_id, product_title, product_price from product_info where product_status = 0 and 
-        product_owner != '${req.body.id}' and product_classify = '${req.body.classify}' order by product_id DESC`;
+        product_classify = '${req.body.classify}' order by product_id DESC`;
     } else {
         sql = `select product_id, product_title, product_price from product_info where product_status = 0 and
          product_classify = '${req.body.classify}' order by product_id DESC`;
     }
+
     console.log(req.body);
     console.log('获取商品分类列表============>', sql)
     db.query(sql, (err, datas) => {
@@ -980,6 +1006,31 @@ exports.searchClassify = (req, res) => {
 
     let sql = ``;
     console.log('搜索分类============>', sql)
+
+    db.query(sql, (err, datas) => {
+        // 4.0 判断是否异常
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            return
+        }
+
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}
+
+
+// 获取轮播图
+exports.getSwiper = (req, res) => {
+    // 代表返回的数据结构
+    let resObj = { status: successState, message: '' };
+
+    let sql = `select * from swiper_info`;
+    console.log('获取轮播图============>', sql)
 
     db.query(sql, (err, datas) => {
         // 4.0 判断是否异常
