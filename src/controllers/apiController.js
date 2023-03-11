@@ -324,7 +324,7 @@ exports.searchItem = (req, res) => {
             //    and product_owner != ${req.body.id} order by product_id DESC`
 
             sql = `select product_id, product_title, product_price from product_info where product_status = 0 
-            and order by product_id DESC`
+            order by product_id DESC`
         }
     } else {
         if (req.body.text) {
