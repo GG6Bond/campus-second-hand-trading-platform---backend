@@ -1049,3 +1049,35 @@ exports.getSwiper = (req, res) => {
 }
 
 
+
+
+// 发布求购商品
+exports.postWantBuy = (req, res) => {
+    // 代表返回的数据结构
+    console.log(req.body);
+
+    let resObj = { status: successState, message: '' };
+
+    let wantBuyName = req.body.name;
+    let wantBuyDetail = req.body.intro;
+    let email = req.body.email;
+    let user_id = req.body.user_id;
+
+    let sql = `insert into wantbuy_info values(NULL,
+        "${wantBuyName}","${wantBuyDetail}","${email}",0,${user_id})`;
+    db.query(sql, (err, datas) => {
+        // 4.0 判断是否异常
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}

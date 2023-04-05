@@ -113,6 +113,11 @@ route.post('/api/searchClassify', apiCtrl.searchClassify)
 // 获取轮播图
 route.post('/api/getSwiper', apiCtrl.getSwiper)
 
+// 发布求购商品
+route.post('/api/postWantBuy', apiCtrl.postWantBuy)
+
+// 获取求购商品列表
+route.post('/api/postWantBuy', apiCtrl.postWantBuy)
 
 // test
 route.post('/api/test', apiCtrl.test)
