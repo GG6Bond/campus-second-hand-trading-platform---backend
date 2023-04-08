@@ -117,7 +117,16 @@ route.post('/api/getSwiper', apiCtrl.getSwiper)
 route.post('/api/postWantBuy', apiCtrl.postWantBuy)
 
 // 获取求购商品列表
-route.post('/api/postWantBuy', apiCtrl.postWantBuy)
+route.post('/api/getWantBuyList', apiCtrl.getWantBuyList)
+
+// 获取求购商品详情
+route.post('/api/getWantBuyDetail/:id', apiCtrl.getWantBuyDetail)
+
+// 获取我的求购商品
+route.post('/api/deleteMyWantBuyItem/:id', apiCtrl.deleteMyWantBuyItem)
+
+// 删除我的求购商品
+route.post('/api/getMyWantBuyList/:id', apiCtrl.getMyWantBuyList)
 
 // test
 route.post('/api/test', apiCtrl.test)

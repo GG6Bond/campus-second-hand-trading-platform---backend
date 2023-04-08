@@ -1081,3 +1081,112 @@ exports.postWantBuy = (req, res) => {
         res.send(JSON.stringify(resObj))
     })
 }
+
+
+// 获取求购商品
+exports.getWantBuyList = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    let sql = `select * from wantbuy_info where isBuy = 0`;
+    db.query(sql, (err, datas) => {
+        // 4.0 判断是否异常
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}
+
+// 获取求购商品详情
+exports.getWantBuyDetail = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    console.log(req.params);
+
+    let sql = `select * from wantbuy_info where id = ${req.params.id}`;
+
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+}
+
+
+// 获取我的求购商品
+exports.getMyWantBuyList = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    console.log(req.params);
+
+    let sql = `select * from wantbuy_info where user_id = ${req.params.id} and isBuy = 0`;
+
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+
+
+}
+
+
+// 获取我的求购商品
+exports.deleteMyWantBuyItem = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    console.log(req.params);
+
+    let sql = `update wantbuy_info set isBuy = 1 where id = ${req.params.id}`;
+
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+
+
+}
