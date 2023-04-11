@@ -128,6 +128,9 @@ route.post('/api/deleteMyWantBuyItem/:id', apiCtrl.deleteMyWantBuyItem)
 // 删除我的求购商品
 route.post('/api/getMyWantBuyList/:id', apiCtrl.getMyWantBuyList)
 
+// 发布公告
+route.post('/api/postNotice', apiCtrl.postNotice)
+
 // test
 route.post('/api/test', apiCtrl.test)
 

@@ -1190,3 +1190,32 @@ exports.deleteMyWantBuyItem = (req, res) => {
 
 
 }
+
+
+// 发布公告
+exports.postNotice = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    const { title, content } = req.body;
+
+    let sql = `insert into notice_info values (NULL,"${title}","${content}",0,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP )`;
+
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+
+
+}
