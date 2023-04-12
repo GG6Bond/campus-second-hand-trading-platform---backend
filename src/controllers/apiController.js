@@ -1,4 +1,5 @@
 // 'use strict'
+const { log } = require('console');
 const db = require('../config/db');
 
 const fs = require('fs');
@@ -1218,4 +1219,144 @@ exports.postNotice = (req, res) => {
     })
 
 
+}
+
+
+// 获取全部公告
+exports.getAllNotice = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    let sql = 'select * from notice_info'
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+}
+
+
+// 获取公告详情
+exports.getNoticeDetail = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    const { id } = req.params;
+    // console.log(id);
+    // console.log(req.params);
+
+    let sql = `select * from notice_info where notice_id = ${id}`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+}
+
+// 修改公告信息
+exports.updateNotice = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    const { id, title, content } = req.body;
+    console.log(id);
+    // console.log(req.params);
+
+    let sql = `update notice_info set notice_title =" ${title}" , notice_content = "${content}" ,update_time = CURRENT_TIMESTAMP
+    where notice_id = ${id}`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+}
+
+
+// 修改公告信息
+exports.updateNotice = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    const { id, title, content } = req.body;
+    console.log(id);
+    // console.log(req.params);
+
+
+
+    let sql = `update notice_info set notice_title =" ${title}" , notice_content = "${content}" ,update_time = CURRENT_TIMESTAMP
+    where notice_id = ${id}`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+
+    })
+}
+
+
+// 删除公告
+exports.deleteNotice = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+
+    // console.log(req.params);
+
+    const { id } = req.params;
+    console.log(id);
+
+    let sql = `delete from notice_info where notice_id = ${id}`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
 }

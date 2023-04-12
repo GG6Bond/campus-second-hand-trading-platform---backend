@@ -131,6 +131,18 @@ route.post('/api/getMyWantBuyList/:id', apiCtrl.getMyWantBuyList)
 // 发布公告
 route.post('/api/postNotice', apiCtrl.postNotice)
 
+// 获取全部公告
+route.post('/api/getAllNotice', apiCtrl.getAllNotice)
+
+// 获取公告详情
+route.post('/api/getNoticeDetail/:id', apiCtrl.getNoticeDetail)
+
+// 修改公告信息
+route.post('/api/updateNotice', apiCtrl.updateNotice)
+
+// 删除公告
+route.post('/api/deleteNotice/:id', apiCtrl.deleteNotice)
+
 // test
 route.post('/api/test', apiCtrl.test)
 
