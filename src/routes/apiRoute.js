@@ -38,6 +38,9 @@ route.get('/api/getUserProduct/:id', apiCtrl.getUserProduct)
 // 新建用户
 route.post('/api/createUser', apiCtrl.createUser)
 
+// 用户登录
+route.post('/api/logIn', apiCtrl.logIn)
+
 // 修改商品状态为交易中
 route.post('/api/buyProduct', apiCtrl.buyProduct)
 

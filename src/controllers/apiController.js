@@ -4,6 +4,9 @@ const db = require('../config/db');
 
 const fs = require('fs');
 
+const { encryptPassword, comparePassword } = require('../config/pwd');
+
+
 let successState = 0 // 表示成功
 let failState = 1 // 表示失败
 
@@ -254,7 +257,15 @@ exports.createUser = (req, res) => {
     // 代表返回的数据结构
     let resObj = { status: successState, message: '' };
 
-    let sql = `insert into user_info values (null,"${req.body.id}", "${req.body.password}", "${req.body.username}", 2)`;
+    console.log(req.body.password);
+
+    const pwd = encryptPassword(req.body.password);
+    console.log("加密后的密码是" + pwd);
+
+
+    // let sql = `insert into user_info values (null,"${req.body.id}", "${req.body.password}", "${req.body.username}", 2)`;
+
+    let sql = `insert into user_info values (null,"${req.body.id}", "${pwd}", "${req.body.username}", 2)`;
 
     console.log('新建用户============>', sql)
 
@@ -273,6 +284,66 @@ exports.createUser = (req, res) => {
         res.send(JSON.stringify(resObj))
     })
 }
+
+// 新建用户
+exports.logIn = (req, res) => {
+    // 代表返回的数据结构
+    let resObj = { status: successState, message: '' };
+
+    // console.log(req.body);
+    const { username, password } = req.body;
+
+
+    let sql = `select * from user_info where user_id = "${username}"`;
+
+    console.log('用户登录============>', sql)
+
+    db.query(sql, (err, datas) => {
+        // 4.0 判断是否异常
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            return
+        }
+
+
+        if (datas.length === 0) {
+            console.log("用户不存在");
+            // resObj.status = failState
+            // resObj.message = err.message
+            // res.send(JSON.stringify(resObj))
+            res.send("error")
+            return
+        }
+
+        const pwd = datas[0].user_password;
+        console.log(datas[0].user_password);
+
+        console.log(comparePassword(password, pwd));
+
+        console.log("*******");
+        if (comparePassword(password, pwd)) {
+            // 5.0 获取数据成功
+
+            console.log("ddd");
+            resObj.message = datas
+            res.send(JSON.stringify(resObj))
+            // res.send("success")
+        }
+        else {
+            console.log("XXXXXXX");
+            // resObj.status = failState
+            // resObj.message = err.message
+            // res.send(JSON.stringify(resObj))
+            // return
+            res.send("pwdErr")
+        }
+
+
+    })
+}
+
 
 // 修改商品状态为交易中
 exports.buyProduct = (req, res) => {
