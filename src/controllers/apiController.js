@@ -1373,35 +1373,35 @@ exports.updateNotice = (req, res) => {
 }
 
 
-// 修改公告信息
-exports.updateNotice = (req, res) => {
-    // 代表返回的数据结构
+// // 修改公告信息
+// exports.updateNotice = (req, res) => {
+//     // 代表返回的数据结构
 
-    let resObj = { status: successState, message: '' };
+//     let resObj = { status: successState, message: '' };
 
-    const { id, title, content } = req.body;
-    console.log(id);
-    // console.log(req.params);
+//     const { id, title, content } = req.body;
+//     console.log(id);
+//     // console.log(req.params);
 
 
 
-    let sql = `update notice_info set notice_title =" ${title}" , notice_content = "${content}" ,update_time = CURRENT_TIMESTAMP
-    where notice_id = ${id}`
-    db.query(sql, (err, datas) => {
-        if (err) {
-            resObj.status = failState
-            resObj.message = err.message
-            res.send(JSON.stringify(resObj))
-            console.log(err);
-            return
-        }
-        // 5.0 获取数据成功
-        resObj.message = datas
+//     let sql = `update notice_info set notice_title =" ${title}" , notice_content = "${content}" ,update_time = CURRENT_TIMESTAMP
+//     where notice_id = ${id}`
+//     db.query(sql, (err, datas) => {
+//         if (err) {
+//             resObj.status = failState
+//             resObj.message = err.message
+//             res.send(JSON.stringify(resObj))
+//             console.log(err);
+//             return
+//         }
+//         // 5.0 获取数据成功
+//         resObj.message = datas
 
-        res.send(JSON.stringify(resObj))
+//         res.send(JSON.stringify(resObj))
 
-    })
-}
+//     })
+// }
 
 
 // 删除公告
@@ -1417,6 +1417,63 @@ exports.deleteNotice = (req, res) => {
     console.log(id);
 
     let sql = `delete from notice_info where notice_id = ${id}`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}
+
+
+// 发布评论
+exports.postComment = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+
+    const { user_id, product_id, commentDetail } = req.body;
+
+    console.log("评论详情：" + user_id + ' ' + product_id + ' ' + commentDetail);
+
+
+
+    let sql = `insert into comment_info values (NULL,${product_id},${user_id},"${commentDetail}",CURRENT_TIMESTAMP)`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}
+
+
+// 获取评论
+exports.getAllComment = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    console.log("++++++++++" + req.params.id);
+    // console.log("++++++++-00" + req.body.id);
+    const product_id = req.params.id;
+
+    let sql = `select * from comment_info where product_id = ${product_id}`
     db.query(sql, (err, datas) => {
         if (err) {
             resObj.status = failState

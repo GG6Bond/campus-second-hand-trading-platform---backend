@@ -146,6 +146,12 @@ route.post('/api/updateNotice', apiCtrl.updateNotice)
 // 删除公告
 route.post('/api/deleteNotice/:id', apiCtrl.deleteNotice)
 
+// 发表评论
+route.post('/api/postComment', apiCtrl.postComment)
+
+// 获取评论
+route.get('/api/getAllComment/:id', apiCtrl.getAllComment)
+
 // test
 route.post('/api/test', apiCtrl.test)
 
