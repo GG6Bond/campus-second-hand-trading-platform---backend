@@ -5,11 +5,14 @@ const db = require('../config/db');
 const fs = require('fs');
 
 const { encryptPassword, comparePassword } = require('../config/pwd');
-
+const { generateVerificationCode } = require('../config/yzm')
 
 let successState = 0 // 表示成功
 let failState = 1 // 表示失败
 
+
+// 存储手机号和验证码以及过期时间的键值对
+const verificationCodes = {};
 
 // let successState = 0 // 表示成功
 // let failState = 1 // 表示失败
@@ -257,6 +260,24 @@ exports.createUser = (req, res) => {
     // 代表返回的数据结构
     let resObj = { status: successState, message: '' };
 
+
+    const phone = req.body.id;
+    const verificationCode = req.body.code;
+
+    console.log(phone, verificationCode);
+
+    // 检查手机号格式和验证码是否正确
+    if (!verificationCodes.hasOwnProperty(phone)) {
+        res.status(401).send('Invalid phone number or verification code.');
+        return;
+    }
+    const { code, expirationTime } = verificationCodes[phone];
+    if (code !== verificationCode || Date.now() > expirationTime) {
+        res.status(401).send('codeErr');
+        return;
+    }
+
+
     console.log(req.body.password);
 
     const pwd = encryptPassword(req.body.password);
@@ -285,7 +306,7 @@ exports.createUser = (req, res) => {
     })
 }
 
-// 新建用户
+// 登录
 exports.logIn = (req, res) => {
     // 代表返回的数据结构
     let resObj = { status: successState, message: '' };
@@ -343,6 +364,26 @@ exports.logIn = (req, res) => {
 
     })
 }
+
+
+// 发送验证码
+exports.sendVerificationCode = (req, res) => {
+    // console.log(req.body);
+    const { phone } = req.body;
+    // console.log(phone);
+    const { code, expirationTime } = generateVerificationCode();
+    // 将验证码及其过期时间存储到服务器端内存
+    verificationCodes[phone] = { code, expirationTime };
+    console.log(code, expirationTime);
+    console.log(verificationCodes[phone]);
+    console.log(verificationCodes);
+
+    console.log(`Verification code for ${phone}: ${code}`);
+
+    res.send('Verification code sent successfully.');
+
+}
+
 
 
 // 修改商品状态为交易中

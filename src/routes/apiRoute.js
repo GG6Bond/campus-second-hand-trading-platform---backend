@@ -38,6 +38,9 @@ route.get('/api/getUserProduct/:id', apiCtrl.getUserProduct)
 // 新建用户
 route.post('/api/createUser', apiCtrl.createUser)
 
+// 发送验证码
+route.post('/api/sendVerificationCode', apiCtrl.sendVerificationCode)
+
 // 用户登录
 route.post('/api/logIn', apiCtrl.logIn)
 
