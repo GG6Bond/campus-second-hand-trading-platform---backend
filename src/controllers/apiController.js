@@ -394,20 +394,37 @@ exports.buyProduct = (req, res) => {
     let sql = `update product_info set product_status = 1, product_buyer = ${req.body.userid} where product_id = ${req.body.productid}`;
     console.log('修改商品状态为交易中============>', sql)
 
-    db.query(sql, (err, datas) => {
-        // 4.0 判断是否异常
-        if (err) {
-            resObj.status = failState
-            resObj.message = err.message
-            res.send(JSON.stringify(resObj))
-            return
+
+    // 检查是否出售
+    let checksql = `select * from product_info where product_id = ${req.body.productid}`
+
+    db.query(checksql, (err, datas) => {
+        console.log(datas);
+        console.log('当前商品的状态：' + datas[0].product_status);
+        if (datas[0].product_status !== 0) {
+            console.log('已售出!!!');
+            res.send('yscErr')
+            return;
         }
+        else {
+            db.query(sql, (err, datas) => {
+                // 4.0 判断是否异常
+                if (err) {
+                    resObj.status = failState
+                    resObj.message = err.message
+                    res.send(JSON.stringify(resObj))
+                    return
+                }
 
-        // 5.0 获取数据成功
-        resObj.message = datas
+                // 5.0 获取数据成功
+                resObj.message = datas
 
-        res.send(JSON.stringify(resObj))
+                res.send(JSON.stringify(resObj))
+            })
+        }
     })
+
+
 }
 
 // 搜索商品列表
