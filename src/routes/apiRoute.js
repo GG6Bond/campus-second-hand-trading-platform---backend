@@ -25,6 +25,11 @@ route.get('/api/getProductDetail/:id', apiCtrl.getProductDetail)
 route.post('/api/editProductDetail', apiCtrl.editProductDetail)
 
 // 上传图片文件
+// multer 是一个 Node.js 中的中间件，
+// 用于处理 multipart / form - data 类型的 HTTP 请求。
+// 调用 multer({ ...}).any() 方法表示
+// 可以接受客户端发送的任意类型的多媒体文件，
+// 且这些文件将被存储在./ public / upload 目录下。
 route.post('/api/upload', multer({
     dest: './public/upload'
 }).any(), apiCtrl.upload)

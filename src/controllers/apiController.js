@@ -151,20 +151,23 @@ exports.editProductDetail = (req, res) => {
 // 图片上传
 exports.upload = (req, res) => {
     let index = 0;
-    console.log(req.body.id);
+    console.log("索引：" + req.body.id);
+    console.log("商品id：" + req.body.time);
+
     let time = Date.now();
+    // 客户端上传的文件数组，包含了多个文件的文件名、文件类型等信息
+    console.log("客户端上传的文件数组" + req.files);
+    // 遍历客户端上传的文件数组，
+    // 使用 fs.rename() 方法将每个本地临时文件重命名为服务器上的唯一文件名
     for (const i of req.files) {
-        // fs.rename("./upload/" + i.filename, "../uni-app/static/upload/" + req.body.time + "_" + req.body.id + ".png", (err) => {
-        //     if (err) {
-        //         console.error(err)
-        //         return
-        //     } else {
-        //         console.log('文件重命名成功')
-        //     }
-        // })
-        // index++;
+
+        // 第一个参数为原始文件路径，第二个参数为新的文件路径。
+        // 在这里，将原始文件路径中的文件名替换为格式为的新文件名，
+        // 并同时将其保存到./ public / upload 目录下
         fs.rename("./public/upload/" + i.filename, "./public/upload/" + req.body.time + "_" + req.body.id + ".png", (err) => {
-            // fs.rename("./src/public/upload/" + i.filename, "./src/public/upload/" + time + "_" + index + ".png", (err) => {
+            console.log("每张图片：");
+            console.log(i);
+            // console.log("重命名之前：" + i.filename);
             if (err) {
                 console.error(err)
                 return
@@ -374,8 +377,8 @@ exports.sendVerificationCode = (req, res) => {
     const { code, expirationTime } = generateVerificationCode();
     // 将验证码及其过期时间存储到服务器端内存
     verificationCodes[phone] = { code, expirationTime };
-    console.log(code, expirationTime);
-    console.log(verificationCodes[phone]);
+    // console.log(code, expirationTime);
+    // console.log(verificationCodes[phone]);
     console.log(verificationCodes);
 
     console.log(`Verification code for ${phone}: ${code}`);
