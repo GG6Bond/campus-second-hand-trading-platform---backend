@@ -160,6 +160,8 @@ route.post('/api/postComment', apiCtrl.postComment)
 // 获取评论
 route.get('/api/getAllComment/:id', apiCtrl.getAllComment)
 
+// 删除评论
+route.post('/api/delComment', apiCtrl.delComment)
 // test
 route.post('/api/test', apiCtrl.test)
 

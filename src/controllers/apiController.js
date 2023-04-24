@@ -1,5 +1,5 @@
 // 'use strict'
-const { log } = require('console');
+
 const db = require('../config/db');
 
 const fs = require('fs');
@@ -379,9 +379,9 @@ exports.sendVerificationCode = (req, res) => {
     verificationCodes[phone] = { code, expirationTime };
     // console.log(code, expirationTime);
     // console.log(verificationCodes[phone]);
-    console.log(verificationCodes);
+    // console.log(verificationCodes);
 
-    console.log(`Verification code for ${phone}: ${code}`);
+    console.log(`******${phone}的验证码是: ${code}******`);
 
     res.send('Verification code sent successfully.');
 
@@ -1535,6 +1535,32 @@ exports.getAllComment = (req, res) => {
     const product_id = req.params.id;
 
     let sql = `select * from comment_info where product_id = ${product_id}`
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}
+
+// 获取评论
+exports.delComment = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    console.log(req.body);
+
+    const { id } = req.body;
+
+    let sql = `delete from comment_info where id = ${id}`
     db.query(sql, (err, datas) => {
         if (err) {
             resObj.status = failState
