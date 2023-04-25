@@ -31,8 +31,11 @@ route.post('/api/editProductDetail', apiCtrl.editProductDetail)
 // 可以接受客户端发送的任意类型的多媒体文件，
 // 且这些文件将被存储在./ public / upload 目录下。
 route.post('/api/upload', multer({
-    dest: './public/upload'
+    dest: './src/public/upload'
 }).any(), apiCtrl.upload)
+// 这个是里面的文件夹dest: './src/public/upload'
+
+
 
 // 获取商品列表
 route.get('/api/getProductList/:id', apiCtrl.getProductList)
