@@ -151,8 +151,8 @@ exports.editProductDetail = (req, res) => {
 // 图片上传
 exports.upload = (req, res) => {
     let index = 0;
-    console.log("索引：" + req.body.id);
-    console.log("商品id：" + req.body.time);
+    // console.log("索引：" + req.body.id);
+    // console.log("商品id：" + req.body.time);
 
     let time = Date.now();
     // 客户端上传的文件数组，包含了多个文件的文件名、文件类型等信息
@@ -492,13 +492,56 @@ exports.searchItem = (req, res) => {
     })
 }
 
+// // 插入历史记录
+// exports.setHistory = (req, res) => {
+//     // 代表返回的数据结构
+//     let resObj = { status: successState, message: '' };
+//     console.log(req.body);
+//     let sql = `select * FROM history where user_id = ${req.body.user} and product_id = ${req.body.product}`;
+//     console.log('检查是否已有记录============>', sql)
+
+//     db.query(sql, (err, datas) => {
+//         // 4.0 判断是否异常
+//         if (err) {
+//             resObj.status = failState
+//             resObj.message = err.message
+//             res.send(JSON.stringify(resObj))
+//             return
+//         }
+
+//         if (datas.length === 0) {
+//             // 无数据 插入
+//             console.log(123456);
+//         } else {
+//             // 有数据 返回
+//             res.send(JSON.stringify(resObj))
+//             return
+//         }
+//         let sql1 = `insert into history values (null,${req.body.product}, ${req.body.user})`;
+//         console.log('插入历史记录============>', sql1)
+
+//         db.query(sql1, (err, datas) => {
+//             // 4.0 判断是否异常
+//             if (err) {
+//                 resObj.status = failState
+//                 resObj.message = err.message
+//                 res.send(JSON.stringify(resObj))
+//                 return
+//             }
+//             resObj.message = datas
+//         })
+
+//         res.send(JSON.stringify(resObj))
+//     })
+// }
+
 // 插入历史记录
 exports.setHistory = (req, res) => {
     // 代表返回的数据结构
     let resObj = { status: successState, message: '' };
     console.log(req.body);
-    let sql = `select * FROM history where user_id = ${req.body.user} and product_id = ${req.body.product}`;
-    console.log('检查是否已有记录============>', sql)
+    let sql = `insert into history values (null,${req.body.product}, ${req.body.user})`;
+    console.log('插入历史记录<============>', sql)
 
     db.query(sql, (err, datas) => {
         // 4.0 判断是否异常
@@ -508,32 +551,10 @@ exports.setHistory = (req, res) => {
             res.send(JSON.stringify(resObj))
             return
         }
-
-        if (datas.length === 0) {
-            // 无数据 插入
-            console.log(123456);
-        } else {
-            // 有数据 返回
-            res.send(JSON.stringify(resObj))
-            return
-        }
-        let sql1 = `insert into history values (null,${req.body.product}, ${req.body.user})`;
-        console.log('插入历史记录============>', sql1)
-
-        db.query(sql1, (err, datas) => {
-            // 4.0 判断是否异常
-            if (err) {
-                resObj.status = failState
-                resObj.message = err.message
-                res.send(JSON.stringify(resObj))
-                return
-            }
-            resObj.message = datas
-        })
-
         res.send(JSON.stringify(resObj))
     })
 }
+
 
 // 获取历史记录
 exports.getHistory = (req, res) => {
@@ -541,7 +562,7 @@ exports.getHistory = (req, res) => {
     let resObj = { status: successState, message: '' };
 
     let sql = `select * from history, product_info where user_id = ${req.params.id} and history.product_id = product_info.product_id`;
-    console.log('获取历史记录============>', sql)
+    console.log('获取历史记录<============>', sql)
 
     db.query(sql, (err, datas) => {
         // 4.0 判断是否异常
@@ -552,15 +573,14 @@ exports.getHistory = (req, res) => {
             return
         }
 
-        // 设置图片位置
-        // for (const i of datas) {
-        //     i.imgArr = "../../static/upload/" + i.product_id + "_0.png";
-        // }
         for (const i of datas) {
+            // console.log(i);
             i.imgArr = (`/upload/${i.product_id}_0.png`);
         }
 
-        // 5.0 获取数据成功
+        datas = datas.reverse();
+        // console.log(datas);
+
         resObj.message = datas
 
         res.send(JSON.stringify(resObj))
@@ -572,7 +592,12 @@ exports.delHistory = (req, res) => {
     // 代表返回的数据结构
     let resObj = { status: successState, message: '' };
 
-    let sql = `delete from history where user_id = ${req.body.userid} and product_id = ${req.body.productid}`;
+    const { history_id } = req.body;
+
+    console.log(history_id);
+
+    // let sql = `delete from history where user_id = ${req.body.userid} and product_id = ${req.body.productid}`;
+    let sql = `delete from history where history_id = ${history_id}`;
     console.log('删除历史记录============>', sql)
 
     db.query(sql, (err, datas) => {
@@ -728,7 +753,9 @@ exports.tradingProduct = (req, res) => {
 
         // 5.0 获取数据成功
         for (const i of datas) {
-            i.imgArr = (`/upload/${i.product_id}_0.png`);
+            // i.imgArr = (`/upload/${i.product_id}_0.png`);
+            i.imgArr = `/upload/${i.product_id}_0.png`;
+
         }
         resObj.message = datas
 
@@ -894,6 +921,14 @@ exports.calEarn = (req, res) => {
     let sql = `select SUM(ROUND(product_price, 1)) as price from product_info where product_owner = ${req.params.id} and product_status = 2`
 
     console.log('计算出售的商品============>', sql)
+
+    console.log("**********");
+    console.log("**********");
+    console.log("**********");
+    console.log("**********");
+    console.log("**********");
+    console.log("**********");
+
     db.query(sql, (err, datas) => {
         // 4.0 判断是否异常
         if (err) {

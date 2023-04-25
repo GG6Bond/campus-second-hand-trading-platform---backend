@@ -28,6 +28,6 @@ app.use(bodyParser({ extended: false }))
 const apiRoute = require('./routes/apiRoute.js')
 app.use('/', apiRoute)
 
-app.listen(8999, () => {
+app.listen(9001, () => {
     console.log('服务已启动 http:127.0.0.1:8999');
 })
