@@ -798,6 +798,7 @@ exports.changeUser = (req, res) => {
     let resObj = { status: successState, message: '' };
     console.log(req.body.message);
     let sql = ``
+    // 0-修改用户邮箱 1-修改手机号 其他-修改密码
     if (req.body.message == '0') {
         sql = `update user_info set user_name = "${req.body.text}" where user_id = ${req.body.id}`
     } else if (req.body.message == '1') {
