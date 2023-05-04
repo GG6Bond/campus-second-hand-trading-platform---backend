@@ -164,7 +164,7 @@ exports.upload = (req, res) => {
         // 第一个参数为原始文件路径，第二个参数为新的文件路径。
         // 在这里，将原始文件路径中的文件名替换为格式为的新文件名，
         // 并同时将其保存到./ public / upload 目录下
-        fs.rename("./src/public/upload/" + i.filename, "./src/public/upload/" + req.body.time + "_" + req.body.id + ".png", (err) => {
+        fs.rename("./public/upload/" + i.filename, "./public/upload/" + req.body.time + "_" + req.body.id + ".png", (err) => {
             console.log("每张图片：");
             console.log(i);
             // console.log("重命名之前：" + i.filename);
