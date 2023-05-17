@@ -7,10 +7,6 @@ const apiCtrl = require("../controllers/apiController.js")
 route.get('/api/test', apiCtrl.test);
 
 
-// route.get('/api/getUserInfo/:id', apiCtrl.getUserInfo);
-
-
-
 
 // 获取用户信息
 route.get('/api/getuserinfo/:id', apiCtrl.getuserinfo)
@@ -31,7 +27,7 @@ route.post('/api/editProductDetail', apiCtrl.editProductDetail)
 // 可以接受客户端发送的任意类型的多媒体文件，
 // 且这些文件将被存储在./ public / upload 目录下。
 route.post('/api/upload', multer({
-    dest: './public/upload'
+    dest: './src/public/upload'
 }).any(), apiCtrl.upload)
 // 这个是里面的文件夹dest: './src/public/upload'
 
@@ -51,6 +47,8 @@ route.post('/api/sendVerificationCode', apiCtrl.sendVerificationCode)
 
 // 用户登录
 route.post('/api/logIn', apiCtrl.logIn)
+
+route.post('/api/changePwd', apiCtrl.changePwd)
 
 // 修改商品状态为交易中
 route.post('/api/buyProduct', apiCtrl.buyProduct)
@@ -165,6 +163,11 @@ route.get('/api/getAllComment/:id', apiCtrl.getAllComment)
 
 // 删除评论
 route.post('/api/delComment', apiCtrl.delComment)
+
+// 修改邮箱
+route.post('/api/changeEmail', apiCtrl.changeEmail)
+
+
 // test
 route.post('/api/test', apiCtrl.test)
 

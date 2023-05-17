@@ -5,7 +5,8 @@ const db = require('../config/db');
 const fs = require('fs');
 
 const { encryptPassword, comparePassword } = require('../config/pwd');
-const { generateVerificationCode } = require('../config/yzm')
+const { generateVerificationCode } = require('../config/yzm');
+const { log } = require('console');
 
 let successState = 0 // 表示成功
 let failState = 1 // 表示失败
@@ -14,8 +15,6 @@ let failState = 1 // 表示失败
 // 存储手机号和验证码以及过期时间的键值对
 const verificationCodes = {};
 
-// let successState = 0 // 表示成功
-// let failState = 1 // 表示失败
 
 
 // exports.test = (req, res) => {
@@ -164,7 +163,7 @@ exports.upload = (req, res) => {
         // 第一个参数为原始文件路径，第二个参数为新的文件路径。
         // 在这里，将原始文件路径中的文件名替换为格式为的新文件名，
         // 并同时将其保存到./ public / upload 目录下
-        fs.rename("./public/upload/" + i.filename, "./public/upload/" + req.body.time + "_" + req.body.id + ".png", (err) => {
+        fs.rename("./src/public/upload/" + i.filename, "./src/public/upload/" + req.body.time + "_" + req.body.id + ".png", (err) => {
             console.log("每张图片：");
             console.log(i);
             // console.log("重命名之前：" + i.filename);
@@ -1610,4 +1609,51 @@ exports.delComment = (req, res) => {
 
         res.send(JSON.stringify(resObj))
     })
+}
+
+
+
+// 修改邮箱
+exports.changeEmail = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    // console.log(req.body);
+    // console.log(req.params);
+
+    const { id, email } = req.body;
+
+    console.log(id);
+    console.log(email);
+
+    let sql = `update user_info set user_name = "${email}" where user_id = ${id}`
+    console.log('修改邮箱==========>' + sql);
+    db.query(sql, (err, datas) => {
+        if (err) {
+            resObj.status = failState
+            resObj.message = err.message
+            res.send(JSON.stringify(resObj))
+            console.log(err);
+            return
+        }
+        // 5.0 获取数据成功
+        resObj.message = datas
+
+        res.send(JSON.stringify(resObj))
+    })
+}
+
+
+// 修改密码
+exports.changePwd = (req, res) => {
+    // 代表返回的数据结构
+
+    let resObj = { status: successState, message: '' };
+
+    const { id, pwd } = req.body;
+
+
+
+    // todo
 }
